@@ -21,7 +21,18 @@
  *    getIntervalArray(3, 3) => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  return start + end;
+  // const arrayofNums = [];
+
+  // for (let i = start; i <= end; i += 1) {
+  //   arrayofNums.push(i);
+  // }
+
+  return Array.from(
+    new Array(end - start + 1).fill(start),
+    (item, index) => item + index
+  );
+
+  // return arrayofNums;
 }
 
 /**
@@ -37,8 +48,33 @@ function getIntervalArray(start, end) {
  *    sumArrays([10, 20, 30], [5, 10, 15]) => [15, 30, 45]
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
-function sumArrays(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function sumArrays(arr1, arr2) {
+  // const newArr = [];
+  // const maxLength = Math.max(arr1.length, arr2.length);
+
+  // for (let i = 0; i < maxLength; i += 1) {
+  //   newArr.push((arr1[i] || 0) + (arr2[i] || 0));
+  // }
+
+  // return newArr;
+
+  const firstArrLength = arr1.length;
+  const secondArrLength = arr2.length;
+  const newArr = [];
+
+  if (firstArrLength >= secondArrLength) {
+    arr1.map((num, index) => {
+      return newArr.push(num + arr2[index]);
+    });
+  } else {
+    arr2.map((num, index) => {
+      return newArr.push(num + arr1[index]);
+    });
+  }
+
+  return firstArrLength >= secondArrLength
+    ? newArr.slice(0, secondArrLength).concat(arr1.slice(secondArrLength))
+    : newArr.slice(0, firstArrLength).concat(arr2.slice(firstArrLength));
 }
 
 /**
@@ -257,8 +293,9 @@ function toStringList(arr) {
  *   distinct([ 1, 1, 2, 2, 3, 3, 4, 4]) => [ 1, 2, 3, 4]
  *   distinct([]) => []
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  const newArr = [...new Set(arr)];
+  return newArr;
 }
 
 /**
@@ -274,8 +311,16 @@ function distinct(/* arr */) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  const arrayCreator = (currentDepth, length) => {
+    return currentDepth === 1
+      ? new Array(length).fill(0)
+      : new Array(length)
+          .fill([])
+          .map(() => arrayCreator(currentDepth - 1, length));
+  };
+
+  return arrayCreator(n, size);
 }
 
 /**
@@ -306,8 +351,8 @@ function flattenArray(nestedArray) {
  *   selectMany([[1, 2], [3, 4], [5, 6]], (x) => x) =>   [ 1, 2, 3, 4, 5, 6 ]
  *   selectMany(['one','two','three'], (x) => x.split('')) =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.flatMap(childrenSelector);
 }
 
 /**
